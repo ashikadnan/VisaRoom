@@ -1,0 +1,356 @@
+﻿@model CandidateVM
+@using VisaRoom.Data
+@using VisaRoom.Data.ViewModels
+<script src="~/js/site.js"></script>
+<script src="~/js/qualificationAddMore.js"></script>
+
+
+
+
+@{
+    ViewData["Title"] = "Candidate Profile";
+}
+<div class="row">
+    <div></div>
+    <div class="col-md-8 offset-2">
+        <form asp-action="Create" method="post" enctype="multipart/form-data" id="Candidate_Form">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="row">
+                <div class="col-md-12">
+
+                    <div class="form-group" style="margin-bottom:7px">
+                        <label class="custom-file-label" for="customFile">Upload Candidate Image</label>
+                        <input asp-for="CandidateImageFile" class="custom-file-input" id="customFile">
+                        <span asp-validation-for="CandidateImageFile" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom:7px">
+                        <label asp-for=CandidateName>Type Candidate Name</label>
+                        <input asp-for=CandidateName class="form-control" placeholder="Candidate Name">
+                        <span asp-validation-for=CandidateName class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom:7px">
+                        <label asp-for=CandidateCity>Type Candidate City Name</label>
+                        <input asp-for=CandidateCity class="form-control" placeholder="Candidate City">
+                        <span asp-validation-for=CandidateCity class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom:7px">
+                        <label asp-for=CandidateCountry>Type Country Name</label>
+                        <input asp-for=CandidateCountry class="form-control" placeholder="Candidate Country">
+                        <span asp-validation-for=CandidateCountry class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom:7px">
+                        <label asp-for=CandidatePhone>Candidate Phone Number</label>
+                        <input asp-for=CandidatePhone type="number" class="form-control" placeholder="Candidate Phone">
+                        <span asp-validation-for=CandidateName class="text-danger"></span>
+                    </div>
+                </div>
+
+
+                <div class="col-md-12">
+
+
+                    <div class="form-group" style="margin-bottom:7px">
+                        <label asp-for=Gender>Candidate Gender</label>
+                        <select asp-for=Gender class="form-control" asp-items="Html.GetEnumSelectList<Gender>()" placeholder="Candidate Gender"></select>
+                        <span asp-validation-for=Gender class="text-danger"></span>
+                    </div>
+
+
+                    <div class="form-group" style="margin-bottom:7px">
+                        <label asp-for=ApplyCountryId>Choose Preferred Country</label>
+                        <select asp-for=ApplyCountryId class="form-control" asp-items="ViewBag.Acountryid" placeholder="Choose preferred countries"></select>
+                        <span asp-validation-for=ApplyCountryId class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom:7px">
+                        <label asp-for=VisaTypeId>Select a Visa Type</label>
+                        <select asp-for=VisaTypeId class="form-control" asp-items="ViewBag.Vtypeid" placeholder="Select a VisaType"></select>
+                        <span asp-validation-for=VisaTypeId class="text-danger"></span>
+                    </div>
+
+
+
+                    <div class="form-group" style="margin-bottom:7px">
+                        <label asp-for=CompanyIds>Choose preferred companies</label>
+                        <select asp-for=CompanyIds class="form-control" asp-items="ViewBag.Companiess" placeholder="Select a list of companies" multiple></select>
+                        <span asp-validation-for=CompanyIds class="text-danger"></span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="card" style="border-left:none; border-right:none; margin-top:10px">
+                <div class="card-header">
+                    <h3 style="margin-bottom:7px;">Professional Experience</h3>
+                </div>
+
+                <div class="col-md-12">
+
+                    <div id="experience_row1">
+
+                        <div class="form-group" style="margin-bottom:7px; margin-top:10px">
+                            <label asp-for=Experience.OrganizationName>Type Organization Name</label>
+                            <input asp-for=Experience.OrganizationName name="OrganizationName1" id="OrganizationName1" class="form-control" placeholder="Organization Name">
+                            <span asp-validation-for=Experience.OrganizationName class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom:7px">
+                            <label asp-for=Experience.DesignationName>Type Designation Name</label>
+                            <input asp-for=Experience.DesignationName id="DesignationName1" class="form-control" placeholder="Designation Name">
+                            <span asp-validation-for=Experience.DesignationName class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom:7px">
+                            <label asp-for=Experience.YearsExperience>Type Years ofExperience</label>
+                            <input asp-for=Experience.YearsExperience id="YearsExperience1" class="form-control" placeholder="Years ofExperience">
+                            <span asp-validation-for=Experience.YearsExperience class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom:7px">
+                            <label asp-for=Experience.LocationName>Work Location</label>
+                            <input asp-for=Experience.LocationName id="LocationName1" type="text" class="form-control" placeholder="Work Location">
+                            <span asp-validation-for=Experience.LocationName class="text-danger"></span>
+                        </div>
+
+
+                    </div>
+                    <input class="btn btn-primary" style="margin-bottom:7px" type="button" onclick="Experience_AddMore()" value="Add More Experience" />
+
+                </div>
+            </div>
+
+
+
+            <div class="card" style="border-left:none; border-right:none; margin-top:10px">
+                <div class="card-header">
+                    <h3 style="margin-bottom:7px;">Academic Qualification</h3><br /><br />
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        <div class="card-header" style="background-color:#1e90ff">
+                            <h6 style="margin-bottom:7px;">High School Record</h6>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom:7px; margin-top:10px">
+                            <label asp-for=Qualification.InstituteName>Institute Name</label>
+                            <input asp-for=Qualification.InstituteName id="InstituteName1" class="form-control" type="text" placeholder="Institute Name">
+                            <span asp-validation-for=Qualification.InstituteName class="text-danger"></span>
+                        </div>
+
+
+                        <div class="form-group" style="margin-bottom:7px">
+                            <label asp-for=Qualification.DegreeName>Degree Name</label>
+                            <input asp-for=Qualification.DegreeName id="DegreeName1" class="form-control" type="text" placeholder="Degree Name">
+                            <span asp-validation-for=Qualification.DegreeName class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom:7px">
+                            <label asp-for=Qualification.DurationYear>Duration Year</label>
+                            <input asp-for=Qualification.DurationYear id="DurationYear1" class="form-control" type="text" placeholder="Duration Year">
+                            <span asp-validation-for=Qualification.DurationYear class="text-danger"></span>
+                        </div>
+
+
+
+                        <div class="form-group" style="margin-bottom:7px">
+                            <label asp-for=Qualification.PassingYear>Passing Year</label>
+                            <input asp-for=Qualification.PassingYear id="PassingYear1" class="form-control" type="text" placeholder="Passing Year">
+                            <span asp-validation-for=Qualification.PassingYear class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom:7px">
+                            <label asp-for=Qualification.SchoolResult>Result</label>
+                            <input asp-for=Qualification.SchoolResult id="PassingYear1" class="form-control" type="text" placeholder="Passing Year">
+                            <span asp-validation-for=Qualification.SchoolResult class="text-danger"></span>
+                        </div>
+
+                        
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="card-header" style="background-color:#1e90ff">
+                            <h6 style="margin-bottom:7px;">College Record</h6>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom:7px; margin-top:10px">
+                            <label asp-for=Qualification.InstituteName2>Institute Name</label>
+                            <input asp-for=Qualification.InstituteName2 id="InstituteName1" class="form-control" type="text" placeholder="Institute Name">
+                            <span asp-validation-for=Qualification.InstituteName2 class="text-danger"></span>
+                        </div>
+
+
+                        <div class="form-group" style="margin-bottom:7px; ">
+                            <label asp-for=Qualification.DegreeName2>Degree Name</label>
+                            <input asp-for=Qualification.DegreeName2 id="DegreeName1" class="form-control" type="text" placeholder="Degree Name">
+                            <span asp-validation-for=Qualification.DegreeName2 class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom:7px">
+                            <label asp-for=Qualification.DurationYear2>Duration Year</label>
+                            <input asp-for=Qualification.DurationYear2 id="DurationYear1" class="form-control" type="text" placeholder="Duration Year">
+                            <span asp-validation-for=Qualification.DurationYear2 class="text-danger"></span>
+                        </div>
+
+
+
+                        <div class="form-group" style="margin-bottom:7px">
+                            <label asp-for=Qualification.PassingYear2>Passing Year</label>
+                            <input asp-for=Qualification.PassingYear2 id="PassingYear1" class="form-control" type="text" placeholder="Passing Year">
+                            <span asp-validation-for=Qualification.PassingYear2 class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom:7px">
+                            <label asp-for=Qualification.CollegeResult>Result</label>
+                            <input asp-for=Qualification.CollegeResult id="PassingYear1" class="form-control" type="text" placeholder="Passing Year">
+                            <span asp-validation-for=Qualification.CollegeResult class="text-danger"></span>
+                        </div>
+
+                        
+                    </div>
+
+                    <div class="col-md-12">
+
+                        <div class="card-header" style="background-color:#1e90ff">
+                            <h6 style="margin-bottom:7px;">Graduation Record</h6>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom:7px; margin-top:10px">
+                            <label asp-for=Qualification.InstituteName3>Institute Name</label>
+                            <input asp-for=Qualification.InstituteName3 id="InstituteName1" class="form-control" type="text" placeholder="Institute Name">
+                            <span asp-validation-for=Qualification.InstituteName3 class="text-danger"></span>
+                        </div>
+
+
+                        <div class="form-group" style="margin-bottom:7px">
+                            <label asp-for=Qualification.DegreeName2>Degree Name</label>
+                            <input asp-for=Qualification.DegreeName2 id="DegreeName1" class="form-control" type="text" placeholder="Degree Name">
+                            <span asp-validation-for=Qualification.DegreeName3 class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom:7px">
+                            <label asp-for=Qualification.DurationYear3>Duration Year</label>
+                            <input asp-for=Qualification.DurationYear3 id="DurationYear1" class="form-control" type="text" placeholder="Duration Year">
+                            <span asp-validation-for=Qualification.DurationYear3 class="text-danger"></span>
+                        </div>
+
+
+
+                        <div class="form-group" style="margin-bottom:7px">
+                            <label asp-for=Qualification.PassingYear3>Passing Year</label>
+                            <input asp-for=Qualification.PassingYear3 id="PassingYear1" class="form-control" type="text" placeholder="Passing Year">
+                            <span asp-validation-for=Qualification.PassingYear3 class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom:7px">
+                            <label asp-for=Qualification.BachelorResult>Result</label>
+                            <input asp-for=Qualification.BachelorResult id="PassingYear1" class="form-control" type="text" placeholder="Passing Year">
+                            <span asp-validation-for=Qualification.BachelorResult class="text-danger"></span>
+                        </div>
+
+                        
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="card-header" style="background-color:#1e90ff">
+                            <h6 style="margin-bottom:7px;">Post Graduation Record</h6>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom:7px; margin-top:10px">
+                            <label asp-for=Qualification.InstituteName4>Institute Name</label>
+                            <input asp-for=Qualification.InstituteName4 id="InstituteName1" class="form-control" type="text" placeholder="Institute Name">
+                            <span asp-validation-for=Qualification.InstituteName4 class="text-danger"></span>
+                        </div>
+
+
+                        <div class="form-group" style="margin-bottom:7px">
+                            <label asp-for=Qualification.DegreeName4>Degree Name</label>
+                            <input asp-for=Qualification.DegreeName4 id="DegreeName1" class="form-control" type="text" placeholder="Degree Name">
+                            <span asp-validation-for=Qualification.DegreeName4 class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom:7px">
+                            <label asp-for=Qualification.DurationYear4>Duration Year</label>
+                            <input asp-for=Qualification.DurationYear4 id="DurationYear1" class="form-control" type="text" placeholder="Duration Year">
+                            <span asp-validation-for=Qualification.DurationYear4 class="text-danger"></span>
+                        </div>
+
+
+
+                        <div class="form-group" style="margin-bottom:7px">
+                            <label asp-for=Qualification.PassingYear4>Passing Year</label>
+                            <input asp-for=Qualification.PassingYear4 id="PassingYear1" class="form-control" type="text" placeholder="Passing Year">
+                            <span asp-validation-for=Qualification.PassingYear4 class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom:7px">
+                            <label asp-for=Qualification.MasterResult>Result</label>
+                            <input asp-for=Qualification.MasterResult id="PassingYear1" class="form-control" type="text" placeholder="Passing Year">
+                            <span asp-validation-for=Qualification.MasterResult class="text-danger"></span>
+                        </div>
+
+                        
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="card-header" style="background-color:#1e90ff">
+                            <h6 style="margin-bottom:7px;">Upload Certificates</h6>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom:7px">
+                            <label class="custom-file-label" for="customFile">Upload School Certificate</label>
+                            <input asp-for="CertificateImageFile" class="custom-file-input" id="customFile">
+                            <span asp-validation-for="CertificateImageFile" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom:7px">
+                            <label class="custom-file-label" for="customFile">Upload College Certificate</label>
+                            <input asp-for="Certificate2ImageFile" class="custom-file-input" id="customFile">
+                            <span asp-validation-for="Certificate2ImageFile" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom:7px">
+                            <label class="custom-file-label" for="customFile">Upload Graduation Certificate</label>
+                            <input asp-for="Certificate3ImageFile" class="custom-file-input" id="customFile">
+                            <span asp-validation-for="Certificate3ImageFile" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom:7px">
+                            <label class="custom-file-label" for="customFile">Upload Post Graduation Certificate</label>
+                            <input asp-for="Certificate4ImageFile" class="custom-file-input" id="customFile">
+                            <span asp-validation-for="Certificate4ImageFile" class="text-danger"></span>
+                        </div>
+                        
+                    </div>
+
+                </div>
+            </div>
+
+            <button type="submit" style="margin-bottom:7px" value="Create" class="btn btn-primary float-right">Create</button>
+            <a class="btn btn-info" asp-action="Index">Show All</a>
+        </form>
+    </div>
+
+</div>
+
+@section scripts{
+<script type="text/javascript">
+
+    // Add the following code if you want the name of the file appear on select
+    $(".custom-file-input").on("change", function () {
+        var fileName = $(this).val().split("\\").pop();
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    });
+</script>
+}
+
+
+
+
+
+
+

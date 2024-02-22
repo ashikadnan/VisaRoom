@@ -1,0 +1,38 @@
+﻿@model IEnumerable<Candidate>
+
+
+<div class="row">
+    <p>
+        <h4>
+            List of Candidates
+        </h4>
+    </p>
+</div>
+
+<div class="row">
+    <div class="col-md-8 offset-2">
+        <table class="table table-striped flex-column ">
+            <thead class="align-content-center">
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.Id)</th>
+                    <th>@Html.DisplayNameFor(model => model.CandidateImage)</th>
+                    <th>@Html.DisplayNameFor(model => model.CandidateName)</th>                                   
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td><img src="~/images/@item.CandidateImage" class="rounded-circle" height="70" width="70" asp-append-version="true" /> 
+                        <td>@item.CandidateName</td>      
+                        <td><a class="btn btn-info" asp-controller="Candidate" asp-action="Details" asp-route-id="@item.Id" ><i class="bi bi-pencil-square"></i>View Resume</a></td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+

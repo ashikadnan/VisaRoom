@@ -1,0 +1,34 @@
+﻿@model ApplyCountry
+
+@{ 
+    ViewData["Title"] = "Edit a country";
+}
+
+<div class="row">
+    <p>
+        <h4>
+           Edit a ApplyCountry
+        </h4>
+    </p>
+</div>
+
+<div class="row">
+    <div class="col-md-6 offset-3">
+        <form asp-action="Edit">
+            <div class="form-group">
+                <label asp-for="ApplyCountryName" class="control-label"></label>
+                <span asp-validation-for="ApplyCountryName"></span>
+                <input asp-for="ApplyCountryName" type="text" class="form-control" />
+            </div>
+
+            <div class="form-group">
+         
+                <input type="submit" class="btn btn-primary float-right" value="Edit"/>
+                <a class="btn btn-info" asp-action="Index">Show All</a>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+

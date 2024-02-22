@@ -1,0 +1,66 @@
+﻿@model IEnumerable<Candidate>
+
+@{
+    ViewData["Title"] = "List of Companies";
+}
+
+<div class="row">
+    <p>
+        <h4>
+            Employer Requests
+        </h4>
+    </p>
+</div>
+
+<div class="row">
+    <div class="col-md-8 offset-2">
+        <table class="table table-striped flex-column">
+            <thead class="align-content-center">
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.CandidateImage)</th>
+                    <th>@Html.DisplayNameFor(model => model.CandidateName)</th>
+                    <th>@Html.DisplayNameFor(model => model.ApplyCountryObj.ApplyCountryName)</th>
+                    <th>Employer</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    @foreach (var items in item.Employer_RequestObj)
+                    {
+
+
+                        <tr>
+                            <td><img src="~/images/@item.CandidateImage" class="rounded-circle" height="70" width="70" asp-append-version="true" />
+                            <td>@item.CandidateName</td>
+                            <td>@item.ApplyCountryObj.ApplyCountryName</td>
+                            <td><a asp-controller="Employer" asp-action="Details" asp-route-UserId="@items.UserId">@items.User.FullName </a></td>
+                            <td><a class="btn btn-info" asp-controller="Candidate" asp-action="Details" asp-route-id="@item.Id"><i class="bi bi-pencil-square"></i>Details</a></td>
+                                @{
+                                    var parms = new Dictionary<string, string>
+                    {
+                    { "id", @item.Id.ToString() },
+                    { "user", @items.UserId }
+                    };
+                                }
+                            <td><a class="btn btn-primary" asp-controller="Home" asp-action="ApprovedRequest" asp-route-id ="@item.Id" asp-route-user="@items.UserId"><i class="bi bi-pencil-square"></i>Approve</a></td>
+
+                        </tr>
+                    }
+
+
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="row">
+    <a class="btn btn-light" asp-controller="Candidate" asp-action="Create"><i class="bi bi-plus-circle"></i>Add New Candidate</a>
+</div>
+
+
+

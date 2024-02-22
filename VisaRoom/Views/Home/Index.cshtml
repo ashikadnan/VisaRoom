@@ -1,0 +1,17 @@
+﻿
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+
+<div class="col-md-8 offset-2">
+
+    <h3 class="display-4">Welcome to VisaRoom! Please Login to Continue</h3>
+
+    <div class="col-md-10 offset-1">
+        <a class="btn btn-primary" style="width:200px; height:100px;" asp-controller="Account" asp-action="CandidateLogin"><i class="bi bi-display"></i>Candidate Login</a>
+        <a class="btn btn-info" style="width:200px; height:100px;" asp-controller="Account" asp-action="EmployerLogin"><i class="bi bi-pencil-square"></i>Employer Login</a>
+        <a class="btn btn-danger" style="width:200px; height:100px;" asp-controller="Account" asp-action="Login"><i class="bi bi-display"></i>Admin Login</a><br /><br />
+
+    </div>
+</div>

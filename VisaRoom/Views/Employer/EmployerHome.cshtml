@@ -1,0 +1,21 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using VisaRoom.Data.ViewModels
+@inject UserManager<ApplicationUser> UserManager;
+@model EmployerVM
+
+    @{
+        ViewData["Title"] = "Employer Dashboard";
+    }
+
+<div class="col-md-8 offset-2">
+    <h5>@UserManager.GetUserName(User)'s Dashboard</h5>
+
+    <div>
+        @await Component.InvokeAsync("EmployerDash")
+    </div>
+
+</div>
+
+<div class="col-md-8 offset-2">   
+        @await Component.InvokeAsync("CandidateList")
+</div>

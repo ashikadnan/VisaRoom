@@ -1,0 +1,80 @@
+﻿@using VisaRoom.Data.ViewModels
+@model EmployerVM
+
+@{
+    ViewData["Title"] = "Company Information";
+}
+
+<div class="row">
+    <p>
+        <h4>
+            Create Employer Profile
+        </h4>
+    </p>
+</div>
+
+<div class="row">
+    <div class="col-md-8 offset-2">
+        <form asp-action="Create" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="row">
+                <div class="col-md-8">
+
+                    <div class="form-group">
+                        <label class="custom-file-label" for="customFile">Upload Employer Image</label>
+                        <input asp-for="EmployerImageFile" class="custom-file-input" id="customFile">
+                        <span asp-validation-for="EmployerImageFile" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for=EmployerName>Type Candidate Name</label>
+                        <input asp-for=EmployerName type="text" class="form-control" placeholder="Employer Name">
+                        <span asp-validation-for=EmployerName class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for=EmployerPhone>Type Employer Phone</label>
+                        <input asp-for=EmployerPhone type="number" class="form-control" placeholder="Employer Phone">
+                        <span asp-validation-for=EmployerPhone class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for=EmployerCity>Type City Name</label>
+                        <input asp-for=EmployerCity type="text" class="form-control" placeholder="Employer City">
+                        <span asp-validation-for=EmployerCity class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for=EmployerCountry>Type Candidate Country</label>
+                        <input asp-for=EmployerCountry type="text" class="form-control" placeholder="Employer Country">
+                        <span asp-validation-for=EmployerCountry class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for=EmployerCountry>Employe Company Name</label>
+                        <input asp-for=EmployerCompany type="text" class="form-control" placeholder="Employer Company">
+                        <span asp-validation-for=EmployerCompany class="text-danger"></span>
+                    </div>
+                </div>                
+
+            </div>
+
+            <button type="submit" value="Create" class="btn btn-primary float-right">Create</button>
+            <a class="btn btn-info" asp-action="Index">Show All</a>
+        </form>
+    </div>
+
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+
+        // Add the following code if you want the name of the file appear on select
+        $(".custom-file-input").on("change", function () {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
+    </script>
+
+}

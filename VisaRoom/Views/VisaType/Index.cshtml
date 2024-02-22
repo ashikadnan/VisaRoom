@@ -1,0 +1,46 @@
+﻿@model IEnumerable<VisaType>
+
+@{
+    ViewData["Title"] = "List of Visa Types";
+}
+
+<html>
+    <body>
+        <div class="row">
+            <div class="col-md-8 offset-2">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <td>@Html.DisplayNameFor(model=> model.Id)</td>
+                            <td>@Html.DisplayNameFor(model=> model.VisaTypeName)</td>
+                            <td>Actions</td>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+                    @foreach(var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Id</td>
+                            <td>@item.VisaTypeName</td>
+                            <td>
+                                <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pencil-square"></i>Edit</a>
+                                <a class="btn btn-primary" asp-action="Delete" asp-route-id="@item.Id"><i class="bi bi-trash"></i>Delete</a>
+                            </td>
+
+                            
+                        </tr>
+                    }
+
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+
+        <div class="row">
+    <a class="btn btn-info" asp-controller="VisaType" asp-action="Create"><i class="bi bi-plus-circle"></i>Add New Company</a>
+</div>
+    </body>
+</html>

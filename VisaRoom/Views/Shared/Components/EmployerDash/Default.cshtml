@@ -1,0 +1,15 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> UserManager;
+@model IEnumerable<Employer>
+
+
+ 
+    <div class="col-md-12">
+        <a class="btn btn-primary" style="width:200px; height:100px;" asp-action="Edit" asp-route-id="" ><i class="bi bi-display"></i>View Profile</a>
+        <a class="btn btn-info" style="width:200px; height:100px;" asp-action="Edit" asp-route-id="" ><i class="bi bi-pencil-square"></i>Edit Profile</a>
+        <a class="btn btn-danger" style="width:200px; height:100px;" asp-action="Edit" asp-route-id="" ><i class="bi bi-trash"></i>Delete Profile</a>
+        <a class="btn btn-info" style="width:200px; height:100px;" asp-action="MyRequests" asp-route-id="" ><i class="bi bi-trash"></i>My Requests</a>
+        
+    </div>
+
+

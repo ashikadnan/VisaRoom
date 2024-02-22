@@ -1,0 +1,102 @@
+﻿@model Candidate
+
+<html>
+
+<body>
+
+    <div class="col-md-10 offset-1">
+        <div class="row">
+
+            <div class="col-md-12">
+
+                <div class="col-md-12">
+                    <a class="btn btn-primary" asp-controller="Employer" asp-action="EmployerRequest" asp-route-id="@Model.Id"><i class="bi bi-pencil-square"></i>Request Candidate</a>                   
+                    </div>
+
+                <div class="col-md-3" style="float:left; display:flex;">
+                    <img src="~/images/@Model.CandidateImage" class="square" height="200" width="180" asp-append-version="true" />
+                </div>
+
+                <div class="col-md-9" style="float:right;line-height:0.3">
+                    <h1 style="text-align:right; ">@Model.CandidateName</h1><br />
+                    <h5 style="text-align:right">@Model.CandidateCity</h5><br />
+                    <h5 style="text-align:right">@Model.CandidateCountry</h5>
+                    <h5 style="text-align:right">@Model.CandidatePhone</h5>
+                </div>
+               
+
+            </div>
+
+        </div>
+        <hr style="border: 5px solid green" />
+
+        <div class="row">
+            <div class="col-md-12" style="float:left; line-height:0.3">
+                <div>
+                    <h3>Professional Experience</h3>
+                    <hr style="width:10%; border: 2px solid green" />
+                </div>
+                
+                @foreach(var item in Model.Candidate_ExperienceObj)
+                {        
+                    <div>                   
+                    <br/><h5>Organization: @item.Experience.OrganizationName</h5><br/>
+                    <h5>Designation: @item.Experience.DesignationName</h5><br/>
+                    <h5>Years of Experience: @item.Experience.YearsExperience</h5><br/>
+                    <h5>Location: @item.Experience.LocationName</h5><br/>
+
+                    </div>
+                }
+                
+            </div>
+            
+        </div>
+
+        <div class="row" style="margin-top:5% auto">
+            <div class="col-md-12" style="float:left; line-height:0.3;">
+                <div>
+                    <br/><h3>Academic Qualification</h3>
+                    <hr style="width:10%; border: 2px solid green" />
+                </div>
+                
+                @foreach(var item in Model.Candidate_QualificationsObj)
+                {
+                    <div>
+                    
+                    <br/><h5>Institute: @item.Qualification.InstituteName</h5><br/>
+                    <h5>Degree: @item.Qualification.DegreeName</h5><br/>
+                    <h5>Duration: @item.Qualification.DurationYear</h5><br/>
+                    <h5>Passing Year: @item.Qualification.PassingYear</h5><br/>
+
+                    </div>
+                }
+                
+            </div>
+            
+        </div>
+
+        <div class="row" style="margin-top:5% auto">
+            <div class="col-md-12" style="float:left; line-height:0.3;">
+                <div>
+                    <br/><h3>Personal Information</h3>
+                    <hr style="width:10%; border: 2px solid green" />
+                </div>
+                
+                <div>
+                    <br/><h5>Full Name: @Model.CandidateName</h5><br/>
+                    <h5>Present Address: 55, Sabujbagh, Dhaka-1214</h5><br/>
+                    <h5>City: @Model.CandidateCity</h5><br/>
+                    <h5>Country: @Model.CandidateCountry</h5><br/>
+                    <h5>Marital Status: Married</h5>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+
+
+</body>
+
+</html>
