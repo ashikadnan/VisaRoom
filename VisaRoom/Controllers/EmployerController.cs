@@ -27,15 +27,34 @@ namespace VisaRoom.Controllers
             return View(result);
         }
 
+        public async Task<IActionResult> EDetails()
+        {
+            var exUser = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var employer = await _service.GetByUserId(exUser);
+            return View(employer);
+        }
+
 
         public IActionResult EmployerHome()
         {
             return View("EmployerHome");
         }
 
-
-        public IActionResult Create()
+        public async Task<IActionResult> Details(int id)
         {
+            var employer = await _service.GetAll(id);
+            return View(employer);
+        }
+
+
+        public async Task<IActionResult> Create()
+        {
+            var exUser = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var employer = await _service.GetByUserId(exUser);
+            if(employer != null)
+            {
+                return View(nameof(EmployerHome));
+            }
             return View();  
         }
 
@@ -47,7 +66,9 @@ namespace VisaRoom.Controllers
             {
                 return View("Empty");
             }
-            await _service.AddAsync(newEmployerVM);
+
+            var newUser = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            await _service.AddAsync(newEmployerVM, newUser);
             return RedirectToAction(nameof(Index)); 
         }
 
@@ -73,6 +94,33 @@ namespace VisaRoom.Controllers
             return View(data);
         }
 
+        public async Task<IActionResult> EEdit()
+        {
+            var exUser = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var employer = await _service.GetByUserId(exUser);
+            var result = await _service.GetById(employer.Id);
+
+            
+            if (result == null)
+            {
+                return View("Empty");
+            }
+
+            var data = new EmployerVM()
+            {
+                Id = result.Id, 
+                EmployerName = result.EmployerName,
+                EmployerPhone = result.EmployerPhone,
+                EmployerCity = result.EmployerCity,
+                EmployerCountry = result.EmployerCountry,
+                EmployerCompany = result.EmployerCompany,
+                EmployerImage = result.EmployerImage,
+                
+            };
+
+            return View(data);
+        }
+
         [HttpPost]
     
         public async Task<IActionResult> Edit(EmployerVM newEmployerVM)
@@ -82,9 +130,25 @@ namespace VisaRoom.Controllers
                 return View("Empty");
             }
 
-            var data = await _service.GetByIdAsync(newEmployerVM.Id);
-            await _service.UpdateAsync(newEmployerVM,data);
-            return RedirectToAction(nameof(Index));
+            //var data = await _service.GetById(newEmployerVM.Id);
+            await _service.UpdateAsync(newEmployerVM);
+            return RedirectToAction(nameof(EmployerHome));
+        }
+
+        [HttpPost]
+
+        public async Task<IActionResult> EEdit(EmployerVM newEmployerVM, int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("Empty");
+            }
+
+            newEmployerVM.Id = id;  
+
+            //var data = await _service.GetById(newEmployerVM.Id);
+            await _service.UpdateAsync(newEmployerVM);
+            return RedirectToAction(nameof(EmployerHome));
         }
 
         public async Task <IActionResult> Delete(int id)

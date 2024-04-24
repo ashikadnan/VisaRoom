@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -18,12 +19,12 @@ namespace VisaRoom.Data.Services
             _webHostEnvironment = webHostEnvironment;
         }
 
-        public async Task AddAsync(EmployerVM employer)
+        public async Task AddAsync(EmployerVM employer, string user)
         {
             string uniqueFileName = UploadedFile(employer);
             var data = new Employer()
             {
-             
+
                 EmployerImage = uniqueFileName,
                 EmployerName = employer.EmployerName,
                 EmployerPhone = employer.EmployerPhone,
@@ -32,7 +33,7 @@ namespace VisaRoom.Data.Services
                 EmployerCompany = employer.EmployerCompany,
 
             };
-
+            data.UserId = user; 
             await _context.AddAsync(data);
             await _context.SaveChangesAsync();
         }
@@ -55,22 +56,23 @@ namespace VisaRoom.Data.Services
         }
 
 
-        public async Task UpdateAsync(EmployerVM employer, Employer employers)
+        public async Task UpdateAsync(EmployerVM employer)
         {
             string uniqueFileName = UploadedFiles(employer);
-            
-            if(employers!= null)
+            var employers = await _context.Employer.FirstOrDefaultAsync(x=>x.Id == employer.Id);
+
+            if (employers != null)
             {
-                employers.Id = employer.Id;    
+                employers.Id = employer.Id;
                 employers.EmployerImage = employer.EmployerImage;
                 employers.EmployerName = employer.EmployerName;
                 employers.EmployerPhone = employer.EmployerPhone;
                 employers.EmployerCity = employer.EmployerCity;
                 employers.EmployerCountry = employer.EmployerCountry;
-                employers.EmployerCompany = employer.EmployerCompany;   
+                employers.EmployerCompany = employer.EmployerCompany;
             }
 
-            if(uniqueFileName!=null)
+            if (uniqueFileName != null)
             {
                 employers.EmployerImage = uniqueFileName;
             }
@@ -97,5 +99,24 @@ namespace VisaRoom.Data.Services
             }
             return uniqueFileName;
         }
+
+        public async Task<Employer> GetAll(int id)
+        {
+            var result = await _context.Employer.FirstOrDefaultAsync(x=>x.Id == id);
+            return result;
+        }
+
+        public async Task<Employer> GetByUserId(string userId)
+        {
+            var employer = await _context.Employer.FirstOrDefaultAsync(x => x.UserId == userId);
+            return employer;
+        }
+
+        public async Task<Employer> GetById(int id)
+        {
+            var employer = await _context.Employer.FirstOrDefaultAsync(x=>x.Id == id);
+            return employer;
+        }
     }
+    
 }

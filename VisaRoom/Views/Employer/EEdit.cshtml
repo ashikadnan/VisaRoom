@@ -1,0 +1,72 @@
+﻿@using VisaRoom.Data.ViewModels
+@model EmployerVM
+
+@{
+    ViewData["Title"] = "Employer Information";
+}
+
+<div class="row">
+    <p>
+        <h4>
+            Edit Employer Profile
+        </h4>
+    </p>
+</div>
+
+<div class="row">
+    <div class="col-md-8 offset-2">
+        <form asp-action="EEdit" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="row">
+                <div class="col-md-8">
+
+                    <div class="form-group">
+                        <label class="custom-file-label" for="customFile">Upload Employer Image</label>
+                        <input asp-for="EmployerImageFile" class="custom-file-input" id="customFile">
+                        <span asp-validation-for="EmployerImageFile" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="EmployerImage"></label>
+                        <span asp-validation-for="EmployerImage"></span>
+                        <input asp-for="EmployerImage" type="text" class="form-control" />
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for=EmployerName>Type Employer Name</label>
+                        <input asp-for=EmployerName class="form-control" placeholder="Employer Name">
+                        <span asp-validation-for=EmployerName class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for=EmployerPhone>Type Employer Phone</label>
+                        <input asp-for=EmployerPhone class="form-control" placeholder="Employer Phone">
+                        <span asp-validation-for=EmployerPhone class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for=EmployerCity>Type City Name</label>
+                        <input asp-for=EmployerCity class="form-control" placeholder="Employer City">
+                        <span asp-validation-for=EmployerCity class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for=EmployerCountry>Type Country Name</label>
+                        <input asp-for=EmployerCountry class="form-control" placeholder="Employer Country">
+                        <span asp-validation-for=EmployerCountry class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for=EmployerCompany>Employer Company Number</label>
+                        <input asp-for=EmployerCompany type="number" class="form-control" placeholder="Employer Company">
+                        <span asp-validation-for=EmployerCompany class="text-danger"></span>
+                    </div>
+                </div>
+
+            </div>
+
+            <button type="submit" value="Edit" asp-route-id="@Model.Id" class="btn btn-primary float-right">Update</button>
+            <a class="btn btn-info" asp-action="Index">Show All</a>S
+        </form>
+    </div>
+
+</div>

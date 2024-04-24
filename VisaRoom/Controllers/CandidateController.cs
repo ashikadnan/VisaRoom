@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -64,6 +65,13 @@ namespace VisaRoom.Controllers
         }       
         public async Task<IActionResult> Create()
         {
+            string exUser = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var result = await _service.GetByUserId(exUser);
+            if(result != null)
+            {
+                return RedirectToAction(nameof(CandidateHome));
+            }
+            
             var dropDownValues = await _service.GetNewCandidateDropdownValues();
             ViewBag.Companiess = new SelectList(dropDownValues.Companies, "Id", "CompanyName");
             ViewBag.Acountryid = new SelectList(dropDownValues.ApplyCountries, "Id", "ApplyCountryName");
@@ -87,7 +95,7 @@ namespace VisaRoom.Controllers
 
             string userNew= User.FindFirstValue(ClaimTypes.NameIdentifier);
             await _service.AddAsync(candidateVM, userNew);
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(CandidateHome));
         }
       
         public async Task<IActionResult> CEdit()
@@ -97,11 +105,49 @@ namespace VisaRoom.Controllers
             var candidateId = await _service.GetByUserId(user);
             var result = await _service.GetById(candidateId.Id);
 
+            var qual = new Qualification();
+            var exp = new Experience();
+            //var result = await _service.GetById(id);
+
             if (result == null)
             {
                 return View("Empty");
             }
 
+            foreach (var item in result.Candidate_QualificationsObj)
+            {
+                qual.InstituteName = item.Qualification.InstituteName;
+                qual.DegreeName = item.Qualification.DegreeName;
+                qual.DurationYear = item.Qualification.DurationYear;
+                qual.PassingYear = item.Qualification.PassingYear;
+                qual.SchoolResult = item.Qualification.SchoolResult;
+
+                qual.InstituteName2 = item.Qualification.InstituteName2;
+                qual.DegreeName2 = item.Qualification.DegreeName2;
+                qual.DurationYear2 = item.Qualification.DurationYear2;
+                qual.PassingYear2 = item.Qualification.PassingYear2;
+                qual.CollegeResult = item.Qualification.CollegeResult;
+
+                qual.InstituteName3 = item.Qualification.InstituteName3;
+                qual.DegreeName3 = item.Qualification.DegreeName3;
+                qual.DurationYear3 = item.Qualification.DurationYear3;
+                qual.PassingYear3 = item.Qualification.PassingYear3;
+                qual.BachelorResult = item.Qualification.BachelorResult;
+
+                qual.InstituteName4 = item.Qualification.InstituteName4;
+                qual.DegreeName4 = item.Qualification.DegreeName4;
+                qual.DurationYear4 = item.Qualification.DurationYear4;
+                qual.PassingYear4 = item.Qualification.PassingYear4;
+                qual.MasterResult = item.Qualification.MasterResult;
+            };
+
+            foreach (var items in result.Candidate_ExperienceObj)
+            {
+                exp.OrganizationName = items.Experience.OrganizationName;
+                exp.DesignationName = items.Experience.DesignationName;
+                exp.LocationName = items.Experience.LocationName;
+                exp.YearsExperience = items.Experience.YearsExperience;
+            };
 
             var data = new CandidateVM()
             {
@@ -116,6 +162,12 @@ namespace VisaRoom.Controllers
                 VisaTypeId = result.VisaTypeId,
                 CompanyIds = result.Candidate_CompanyObj.Select(x => x.ComapnyId).ToList(),
                 CandidateImage = result.CandidateImage,
+                Certificate = result.Certificate,
+                Certificate2 = result.Certificate2,
+                Certificate3 = result.Certificate3,
+                Certificate4 = result.Certificate4,
+                Experience = exp,
+                Qualification = qual,
 
             };
 
@@ -207,7 +259,7 @@ namespace VisaRoom.Controllers
         public async Task<IActionResult> Edit(int id, CandidateVM candidateVM)
         {
 
-            var data = await _service.GetByCandidateIdAsync(id, (x => x.Candidate_CompanyObj));
+            //var data = await _service.GetByCandidateIdAsync(id, (x => x.Candidate_CompanyObj));
 
             if (!ModelState.IsValid)
             {
@@ -218,8 +270,8 @@ namespace VisaRoom.Controllers
                 return View(candidateVM);
             }
 
-            await _service.UpdateAsync(candidateVM, data);
-            return RedirectToAction(nameof(Index));
+            await _service.UpdateAsync(candidateVM, id);
+            return RedirectToAction(nameof(CandidateHome));
         }
 
         public async Task<IActionResult> Delete(int id)
@@ -233,6 +285,24 @@ namespace VisaRoom.Controllers
             var result = await _service.GetByUserId(newUser);
             await _service.DeleteAsync(result.Id);
             return RedirectToAction(nameof(CandidateHome));
+        }
+
+        public async Task<IActionResult> ApprovedRequestList()
+        {
+            var allCandidate = await _service.GetAll();
+            var approveList = new List<Candidate>();
+            foreach (var item in allCandidate)
+            {
+                foreach(var items in item.Approved_RequestsObj)
+                {
+                    if(items.CandidateId == item.Id)
+                    {
+                        approveList.Add(item);
+                    }
+                }
+            }
+            return View(approveList);
+
         }
 
     }

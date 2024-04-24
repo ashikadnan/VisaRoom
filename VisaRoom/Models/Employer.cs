@@ -13,6 +13,9 @@ namespace VisaRoom.Models
         public string EmployerCountry { get; set; }
         public string EmployerCompany { get; set; }
 
+        public string UserId { get; set; }
+        public ApplicationUser User { get; set; }
+
         public List<Candidate_Employer> CandidateEmployerObject { get; set; }
     }
 }

@@ -1,0 +1,39 @@
+﻿@model Employer
+
+@{
+    ViewData["Title"] = "Employer Profile";
+
+}
+<html>
+
+<body>
+
+    <div class="col-md-10 offset-1">
+        <div class="row">
+
+            <div class="col-md-12">
+                <div class="col-md-3" style="float:left; display:flex;">
+                    <img src="~/images/@Model.EmployerImage" class="square" height="200" width="180" asp-append-version="true" />
+                </div>
+
+                <div class="col-md-9" style="float:right;line-height:0.3">
+                    <h1 style="text-align:right; ">@Model.EmployerName</h1><br />
+                    <h5 style="text-align:right">@Model.EmployerCompany</h5><br />
+                    <h5 style="text-align:right">@Model.EmployerCity</h5>
+                    <h5 style="text-align:right">@Model.EmployerCountry</h5>
+                    <h5 style="text-align:right">@Model.EmployerPhone</h5>
+                </div>
+               
+
+            </div>
+
+        </div>
+        
+    </div>
+
+
+
+</body>
+
+</html>
+

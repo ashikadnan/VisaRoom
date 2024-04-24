@@ -42,6 +42,9 @@ namespace VisaRoom.Data.ViewModels
 
         public string CandidateUserId { get; set; }
 
+        public Experience Experience { get; set; }
+        public Qualification Qualification { get; set; }
+
         public string Certificate { get; set; }
         [Display(Name = "School Certificate")]
         public IFormFile CertificateImageFile { get; set; }
@@ -57,10 +60,6 @@ namespace VisaRoom.Data.ViewModels
         public string Certificate4 { get; set; }
         [Display(Name = "Masters Certificate")]
         public IFormFile Certificate4ImageFile { get; set; }
-
-
-        public Experience Experience { get; set; }
-        public Qualification Qualification { get; set; }
 
 
     }

@@ -16,7 +16,7 @@ namespace VisaRoom.Data.Services
         Task <IEnumerable<Candidate>> GetAll();
 
         Task AddAsync(CandidateVM newCandidateVM, string user);
-        Task UpdateAsync(CandidateVM newCandidateVM, Candidate candidate);
+        Task UpdateAsync(CandidateVM newCandidateVM, int id);
         //Task DeleteAsync(int id);
 
         Task<NewCandidateDropdownVM> GetNewCandidateDropdownValues();

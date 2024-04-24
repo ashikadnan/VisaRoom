@@ -3,10 +3,6 @@
 @using VisaRoom.Data.ViewModels
 <script src="~/js/site.js"></script>
 <script src="~/js/qualificationAddMore.js"></script>
-
-
-
-
 @{
     ViewData["Title"] = "Candidate Profile";
 }
@@ -95,7 +91,7 @@
 
                         <div class="form-group" style="margin-bottom:7px; margin-top:10px">
                             <label asp-for=Experience.OrganizationName>Type Organization Name</label>
-                            <input asp-for=Experience.OrganizationName name="OrganizationName1" id="OrganizationName1" class="form-control" placeholder="Organization Name">
+                            <input asp-for=Experience.OrganizationName id="OrganizationName1" class="form-control" placeholder="Organization Name">
                             <span asp-validation-for=Experience.OrganizationName class="text-danger"></span>
                         </div>
 

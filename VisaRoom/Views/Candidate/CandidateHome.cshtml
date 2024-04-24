@@ -11,9 +11,10 @@
     <h5>@UserManager.GetUserName(User)'s Dashboard</h5>
     
     <div class="col-md-12">
+        <a class="btn btn-dark" style="width:200px; height:100px;" asp-controller="Candidate" asp-action="Create"><i class="bi bi-display"></i>Create Profile</a>
         <a class="btn btn-primary" style="width:200px; height:100px;" asp-controller="Candidate" asp-action="CDetails"><i class="bi bi-display"></i>View Resume</a>
         <a class="btn btn-info" style="width:200px; height:100px;" asp-controller="Candidate" asp-action="CEdit"><i class="bi bi-pencil-square"></i>Edit Resume</a>
-        <a class="btn btn-danger" style="width:200px; height:100px;" asp-action="Delete"><i class="bi bi-trash"></i>Delete Resume</a>
+        <a class="btn btn-danger" style="width:200px; height:100px;" asp-action="CDelete"><i class="bi bi-trash"></i>Delete Resume</a>
     </div>
 
 </div>

@@ -233,9 +233,12 @@ namespace VisaRoom.Data.Services
             return mastersCertificate;
         }
 
-        public async Task UpdateAsync(CandidateVM newCandidateVM, Candidate data)
+        public async Task UpdateAsync(CandidateVM newCandidateVM, int id)
         {
             //var data = await _context.Candidate.FirstOrDefaultAsync(x=> x.Id == newCandidateVM.Id);
+            var data= await _context.Candidate.Include(x=>x.ApplyCountryObj).Include(x=>x.VisaTypeObj).
+                Include(x=>x.Candidate_ExperienceObj).ThenInclude(x=>x.Experience).
+                Include(x=>x.Candidate_QualificationsObj).ThenInclude(x=>x.Qualification).FirstOrDefaultAsync(x=>x.Id == id);
 
             string uniqueFileName = UploadedFiles(newCandidateVM);
             if (data != null)
@@ -249,12 +252,65 @@ namespace VisaRoom.Data.Services
                 data.ApplyCountryId = newCandidateVM.ApplyCountryId;
                 data.VisaTypeId = newCandidateVM.VisaTypeId;
                 data.CandidateImage = newCandidateVM.CandidateImage;
-
+                data.Certificate = newCandidateVM.Certificate;
+                data.Certificate2 = newCandidateVM.Certificate2;    
+                data.Certificate3 = newCandidateVM.Certificate3;
+                data.Certificate4 = newCandidateVM.Certificate4;
             }
 
 
 
             _context.Update(data);
+            await _context.SaveChangesAsync();
+
+            var candidateExperience = await _context.Candidates_Experiences.FirstOrDefaultAsync(x=>x.CandidateId == id);    
+
+            var existingExperience = await _context.Experiences.FirstOrDefaultAsync(x => x.Id == candidateExperience.ExperienceId);
+            //_context.Experiences.Remove(existingExperience);
+            //await _context.SaveChangesAsync();
+
+            if(existingExperience!=null)
+            {
+                existingExperience.OrganizationName = newCandidateVM.Experience.OrganizationName;
+                existingExperience.DesignationName = newCandidateVM.Experience.DesignationName;
+                existingExperience.YearsExperience = newCandidateVM.Experience.YearsExperience;
+                existingExperience.LocationName = newCandidateVM.Experience.LocationName;
+            }
+            
+
+            _context.Experiences.Update(existingExperience);
+            await _context.SaveChangesAsync();
+
+            var candidateQualifications = await _context.Candidates_Qualifications.FirstOrDefaultAsync(x => x.CandidateId == id);   
+            var existingQualifications = await _context.Qualifications.FirstOrDefaultAsync(x=>x.Id == candidateQualifications.QualificationId);
+            //_context.Qualifications.Remove(existingQualifications);
+            //await _context.SaveChangesAsync();
+
+
+            if (existingQualifications != null)
+            {
+                existingQualifications.InstituteName = newCandidateVM.Qualification.InstituteName;
+                existingQualifications.DegreeName = newCandidateVM.Qualification.DegreeName;
+                existingQualifications.SchoolResult = newCandidateVM.Qualification.SchoolResult;
+                existingQualifications.PassingYear = newCandidateVM.Qualification.PassingYear;
+
+                existingQualifications.InstituteName2 = newCandidateVM.Qualification.InstituteName2;
+                existingQualifications.DegreeName2 = newCandidateVM.Qualification.DegreeName2;
+                existingQualifications.CollegeResult = newCandidateVM.Qualification.CollegeResult;
+                existingQualifications.PassingYear2 = newCandidateVM.Qualification.PassingYear2;
+
+                existingQualifications.InstituteName3 = newCandidateVM.Qualification.InstituteName3;
+                existingQualifications.DegreeName3 = newCandidateVM.Qualification.DegreeName3;
+                existingQualifications.BachelorResult = newCandidateVM.Qualification.BachelorResult;
+                existingQualifications.PassingYear3 = newCandidateVM.Qualification.PassingYear3;
+
+                existingQualifications.InstituteName4 = newCandidateVM.Qualification.InstituteName4;
+                existingQualifications.DegreeName4 = newCandidateVM.Qualification.DegreeName4;
+                existingQualifications.MasterResult = newCandidateVM.Qualification.MasterResult;
+                existingQualifications.PassingYear4 = newCandidateVM.Qualification.PassingYear4;
+
+            }
+            _context.Qualifications.Update(existingQualifications);
             await _context.SaveChangesAsync();
 
             var existingCompanyDb = _context.Candidates_Companies.Where(n => n.CandidateId == data.Id).ToList();
@@ -265,12 +321,12 @@ namespace VisaRoom.Data.Services
 
             foreach (var companyid in newCandidateVM.CompanyIds)
             {
-                var newActorMovie = new Candidate_Company()
+                var newCandidateCompany = new Candidate_Company()
                 {
                     CandidateId = newCandidateVM.Id,
                     ComapnyId = companyid
                 };
-                await _context.Candidates_Companies.AddAsync(newActorMovie);
+                await _context.Candidates_Companies.AddAsync(newCandidateCompany);
 
             }
             await _context.SaveChangesAsync();
@@ -343,7 +399,7 @@ namespace VisaRoom.Data.Services
             var allCandidates = await _context.Candidate.Include(x => x.ApplyCountryObj).Include(x => x.VisaTypeObj).Include(x => x.Candidate_CompanyObj).ThenInclude(x => x.Company)
                 .Include(ac => ac.ApplyCountryObj).Include(vt => vt.VisaTypeObj).Include(x => x.Candidate_ExperienceObj).
                 ThenInclude(x => x.Experience).Include(x => x.Candidate_QualificationsObj).
-                ThenInclude(x => x.Qualification).Include(x => x.Employer_RequestObj).ThenInclude(x => x.User).ToListAsync();
+                ThenInclude(x => x.Qualification).Include(x => x.Employer_RequestObj).ThenInclude(x => x.User).Include(x=>x.Approved_RequestsObj).ToListAsync();
             return allCandidates;
             
         }
